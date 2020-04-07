@@ -6,6 +6,10 @@ import { Route, NavLink, Switch, Redirect } from 'react-router-dom';
 
 class Blog extends Component {
 
+    state = {
+        auth: false
+    }
+
     componentDidMount() {
         console.log(this.props);
     }
@@ -20,7 +24,7 @@ class Blog extends Component {
                                 to="/posts/"
                                 exact
                                 activeClassName="my-active">Posts</NavLink></li>
-                            <li><NavLink to={{
+                            <li>{this.state.auth ? (<NavLink to={{
                                 pathname: "/new-post",
                                 hash: "#submit",
                                 search: "?quick-submit=true"
@@ -29,7 +33,7 @@ class Blog extends Component {
                                     color: '#fa590f',
                                     textDecoration: 'underline'
                                 }}
-                            >New Post</NavLink></li>
+                            >New Post</NavLink>) :null}</li>
                         </ul>
                     </nav>
                 </header>
@@ -37,7 +41,7 @@ class Blog extends Component {
                 <Route path="/new-post"  render={() => <h1>Say something funny</h1>}/> */}
 
                 <Switch>{/*ensure 1 route is loaded */}
-                    <Route path="/new-post" component={NewPost} />
+                    {this.state.auth ? <Route path="/new-post" component={NewPost} /> : null}
                     <Route path="/posts" component={Posts} />
                     <Redirect from ="/" to="/posts"/>
                 </Switch>
